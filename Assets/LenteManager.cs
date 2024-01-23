@@ -5,10 +5,12 @@ using UnityEngine.XR.ARFoundation;
 
 public class LenteManager : MonoBehaviour
 {
+    public Material[] materiales;
+    int lenteSeleccionado;
     public void SeleccionLentes(int numeroLente)
     {
         GameObject cara = FindObjectOfType<ARFace>().gameObject;
-
+        lenteSeleccionado = numeroLente;
         //Encontar Lentes
         Transform lentesManager = cara.transform.GetChild(1).transform;
 
@@ -18,5 +20,25 @@ public class LenteManager : MonoBehaviour
             //activar el lente seleccionado
             lentesManager.GetChild(i).gameObject.SetActive(i == numeroLente);
         }
+    }
+
+    public void CambioColorArmazon (int colorSeleccionado)
+    {
+        GameObject lenteACambiar = FindObjectOfType<ARFace>().transform.GetChild(1)
+            .GetChild(lenteSeleccionado).gameObject;
+        //Mesh renderer rendi = lenteACambiar.GetComponent<MeshRenderer>();
+        var rendi = lenteACambiar.GetComponent<MeshRenderer>();
+        //Material[] materialesLente = rendi.materials;
+        var materialesLente = rendi.materials;
+       // if (lenteSeleccionado == 2) 
+        //{
+          //  materialesLente[1] = materiales[colorSeleccionado];
+        //}
+        //else
+        //{
+          //  materialesLente[0] = materiales[colorSeleccionado];
+        //}
+        materialesLente[lenteSeleccionado == 2 ? 1 : 0] = materiales[colorSeleccionado];
+        rendi.materials = materialesLente;
     }
 }
